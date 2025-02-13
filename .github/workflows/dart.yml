@@ -14,8 +14,15 @@ jobs:
         with:
           channel: 'stable'
           architecture: x64
-      - run: flutter pub get
       
+      - name: Clear Flutter pub cache
+        run: flutter pub cache repair
+
+      - name: Remove pubspec.lock (force dependency refresh)
+        run: rm -f pubspec.lock
+
+      - name: Fetch latest dependencies
+        run: flutter pub get
 
       - run: pod repo update
         working-directory: ios
